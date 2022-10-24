@@ -4,7 +4,7 @@ import { RootState } from "../store/store";
 
 const modalSlice = createSlice({
   name: "modalSlice",
-  initialState: { isModal: false, message: { type: "", text: "" } },
+  initialState: { isModal: false, message: { page: "", type: "", text: "" } },
   reducers: {
     setIsModal: (state, action) => {
       state.isModal = action.payload;
