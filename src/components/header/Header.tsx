@@ -52,15 +52,15 @@ function Header() {
         }}
       ></Modal> */}
         <Left>
-          <Link to="/">
-            <Logo src={LogoImg} alt="headerLogo" width="180" />
-          </Link>
+          <LogoBox>
+            <Link to="/">
+              <Logo src={LogoImg} alt="Logo" />
+            </Link>
+          </LogoBox>
         </Left>
         <Center>
           <SearchForm onSubmit={handleSearch}>
-            <SelectBox className="header">
-              <Select>{/* <Option /> */}</Select>
-            </SelectBox>
+            <Select>{/* <Option /> */}</Select>
             <Search type="text" className="search" onChange={handleText} />
             <SearchSub type="submit" value="검색" className="searchSub" />
           </SearchForm>
@@ -76,21 +76,27 @@ function Header() {
 
 export default Header;
 
-const HeaderBox = styled.header``;
-const Logo = styled.img``;
+const HeaderBox = styled.header`
+  width: inherit;
+`;
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 7rem;
+  height: 12rem;
   text-align: center;
+  padding: 0 2rem;
 `;
 const Left = styled.div`
   width: 25%;
-  margin-left: 5rem;
 `;
-const LogoBox = styled.div``;
+const LogoBox = styled.div`
+  width: 100%;
+`;
+const Logo = styled.img`
+  width: 21rem;
+`;
 
 const Center = styled.div`
   width: 40%;
@@ -100,15 +106,21 @@ const SearchForm = styled.form`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 3rem;
+  height: 4rem;
 `;
-const SelectBox = styled.div``;
-const Select = styled.select``;
+const Select = styled.select`
+  width: 25%;
+  height: 100%;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border: 2px solid rgba(50, 50, 50, 0.4);
+`;
 const Option = styled.option``;
 
 const Search = styled.input`
   padding: 0.5rem 0.75rem 0.5rem 1.5rem;
-  width: 50%;
+  flex: 1;
+  height: 100%;
   border: 2px solid rgba(50, 50, 50, 0.4);
   border-left: none;
   border-right: none;
@@ -117,8 +129,10 @@ const Search = styled.input`
 const SearchSub = styled.input`
   padding: 0.5rem 0.75rem;
   width: 15%;
+  height: 100%;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
+  border: 2px solid rgba(50, 50, 50, 0.4);
   border-left: none;
   background: orange;
   cursor: pointer;
@@ -126,9 +140,11 @@ const SearchSub = styled.input`
   &:hover {
     background: rgba(230, 150, 0, 0.7);
   }
-  &:focus {
+  &:active {
     box-shadow: 0 0 10px rgba(200, 150, 0, 1);
   }
 `;
 
-const Right = styled.div``;
+const Right = styled.div`
+  width: 35%;
+`;

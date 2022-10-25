@@ -11,7 +11,7 @@ interface Sizes {
 
 export const sizes: Sizes = {
   xl: "1439px",
-  lg: "1199px",
+  lg: "1200px",
   md: "991px",
   sm: "767px",
   xs: "575px",
@@ -71,6 +71,8 @@ export const shadow = (weight: number) => {
 
 export const theme = (color: string) => {
   const colors: Colors = {
+    orange: "rgb(255,160,72)",
+    darkorange: "rgb(215,130,20)",
     green: "rgb(21, 177, 125)",
     darkgreen: "#2c4b48",
     beige: "#f4f0eb",

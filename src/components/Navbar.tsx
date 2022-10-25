@@ -3,6 +3,7 @@ import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
 import {
   faArrowRight,
   faCartShopping,
+  faMagnifyingGlass,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,12 +13,13 @@ import styled from "styled-components";
 import { authService } from "../fbase";
 import { setIsModal, setMessage } from "../redux/features/modalSlice";
 import { useAppSelector } from "../redux/features/userSlice";
+import { theme } from "../styles/styleUtil";
+import { useRef } from "react";
 
 interface Nav {
   icon: IconDefinition;
   size: SizeProp | undefined;
   title: string;
-  event: boolean;
 }
 
 const nav: Nav[] = [
@@ -25,25 +27,21 @@ const nav: Nav[] = [
     icon: faCartShopping,
     size: "2x",
     title: "장바구니",
-    event: false,
   },
   {
     icon: faHeart,
     size: "2x",
     title: "관심상품",
-    event: false,
   },
   {
     icon: faUser,
     size: "2x",
     title: "마이페이지",
-    event: true,
   },
   {
     icon: faArrowRight,
     size: "2x",
     title: "로그인",
-    event: true,
   },
 ];
 
@@ -52,6 +50,8 @@ export const Navbar = (): JSX.Element => {
   const message = useAppSelector((state) => state.modalData.message);
   // const user = useAppSelector((state) => state.userData.user);
   const isLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
+
+  // const
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,14 +70,26 @@ export const Navbar = (): JSX.Element => {
   };
 
   const handleLogout = (e: React.MouseEvent<HTMLLIElement>) => {
+    if (isLoggedIn) {
+      e.preventDefault();
+      authService.signOut();
+      navigate("/");
+    }
+  };
+
+  const showSearchForm = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    authService.signOut();
-    navigate("/");
+    const target = e.target as HTMLElement;
+    target.id = target.id ? "" : "view";
   };
 
   return (
     <NavCon>
       <List>
+        <SearchBox onClick={showSearchForm}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} size="2x" />
+          <SearchBtn>검색</SearchBtn>
+        </SearchBox>
         {nav.map((item, i) => {
           const href = [
             "/cart",
@@ -86,16 +98,20 @@ export const Navbar = (): JSX.Element => {
             isLoggedIn ? "/" : "/login",
           ];
           const className =
-            i === 3 ? (isLoggedIn ? "login" : "").toString() : "";
-          const onClick = [];
+            i === 3 ? (isLoggedIn ? "login" : "").toString() : undefined;
           return (
-            <Link key={item.title} to={href[i]}>
-              <ListItem className={className}>
-                {/* <ListItem {item?.event && `onClick=${checkLoggedIn}`.toString()}> */}
+            <ListItem
+              key={item.title}
+              onClick={
+                i === 3 ? handleLogout : i === 4 ? checkLoggedIn : undefined
+              }
+              className={className}
+            >
+              <Link to={href[i]}>
                 <FontAwesomeIcon icon={item.icon} size={item.size} />
                 <SubTitle>{item.title}</SubTitle>
-              </ListItem>
-            </Link>
+              </Link>
+            </ListItem>
           );
         })}
       </List>
@@ -105,35 +121,69 @@ export const Navbar = (): JSX.Element => {
 
 export default Navbar;
 
-const NavCon = styled.nav``;
+const NavCon = styled.nav`
+  width: 100%;
+`;
 const List = styled.ul`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
   height: 100%;
 
   a:last-child li::before {
     display: none;
   }
 `;
+const SearchBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme("orange")};
+    button {
+      color: ${theme("orange")};
+    }
+  }
+`;
+const SearchBtn = styled.button`
+  border: none;
+  background: transparent;
+  margin: 1rem 0 0;
+  width: 100%;
+  font-size: 1rem;
+  color: black;
+`;
 const ListItem = styled.li`
   position: relative;
+  width: 20%;
   height: 100%;
   font-size: 1rem;
-  margin-right: 2rem;
   color: black;
   cursor: pointer;
+
+  &:hover {
+    color: ${theme("orange")};
+  }
 
   &::before {
     position: absolute;
     top: 50%;
-    right: -1rem;
+    margin: 0 auto;
     transform: translate(0, -50%);
     content: "";
     display: block;
     background: rgba(50, 50, 50, 0.5);
     width: 1px;
     height: 70%;
+  }
+
+  &:first-child {
+    &::before {
+      display: none;
+    }
   }
 `;
 const SubTitle = styled.p`

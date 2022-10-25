@@ -9,6 +9,7 @@ import {
   setUser,
   useAppSelector,
 } from "./redux/features/userSlice";
+import "./styles/styles.css";
 
 function App(): JSX.Element {
   const user = useAppSelector((state) => state.userData.user);

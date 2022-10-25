@@ -23,10 +23,21 @@ html {
 }
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
+  padding: 0;
   font-family: "Sarpanch", "Gowun Dodum", "Roboto", sans-serif;
+  overflow: hidden;
+}
+
+/* @media (max-width: 00px) {
+  .App > * {
+    width: 120rem;
+  }
+} */
+
+.App > * {
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 li {
@@ -38,9 +49,10 @@ a {
   color: inherit;
 }
 a:hover {
-  color: rgb(21, 177, 125);
+  color: orange;
 }
 a:active {
-  text-shadow: 0 0.01rem 0.055rem rgba(21, 247, 105, 0.3),
-    0 0.01rem 0.03rem rgba(21, 247, 105, 0.5);
+  text-shadow: 0 0.01rem 0.055rem darkorange, 0 0.01rem 0.03rem orange;
 }
+
+/* rgba(21, 247, 105, 0.5) */
