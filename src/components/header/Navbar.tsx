@@ -9,12 +9,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { authService } from "../fbase";
-import { setIsModal, setMessage } from "../redux/features/modalSlice";
-import { useAppSelector } from "../redux/features/userSlice";
-import { theme } from "../styles/styleUtil";
-import { useRef } from "react";
+import styled, { css } from "styled-components";
+import { authService } from "../../fbase";
+import { setIsModal, setMessage } from "../../redux/features/modalSlice";
+import { useAppSelector } from "../../redux/features/userSlice";
+import { theme } from "../../styles/styleUtil";
+import { Dispatch, SetStateAction, useRef } from "react";
 
 interface Nav {
   icon: IconDefinition;
@@ -36,7 +36,7 @@ const nav: Nav[] = [
   {
     icon: faUser,
     size: "2x",
-    title: "마이페이지",
+    title: "프로필",
   },
   {
     icon: faArrowRight,
@@ -45,13 +45,16 @@ const nav: Nav[] = [
   },
 ];
 
-export const Navbar = (): JSX.Element => {
+interface NavbarProps {
+  setIsSearch: Dispatch<SetStateAction<boolean>>;
+  isSearch: boolean;
+}
+
+export const Navbar = ({ isSearch, setIsSearch }: NavbarProps): JSX.Element => {
   const isModal = useAppSelector((state) => state.modalData.isModal);
   const message = useAppSelector((state) => state.modalData.message);
   // const user = useAppSelector((state) => state.userData.user);
   const isLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
-
-  // const
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -79,10 +82,10 @@ export const Navbar = (): JSX.Element => {
 
   const showSearchForm = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const target = e.target as HTMLElement;
-    target.id = target.id ? "" : "view";
+    // const target = e.target as HTMLElement;
+    // target.id = target.id ? "" : "view";
+    setIsSearch(!isSearch);
   };
-
   return (
     <NavCon>
       <List>
@@ -106,6 +109,7 @@ export const Navbar = (): JSX.Element => {
                 i === 3 ? handleLogout : i === 4 ? checkLoggedIn : undefined
               }
               className={className}
+              isSearch={isSearch}
             >
               <Link to={href[i]}>
                 <FontAwesomeIcon icon={item.icon} size={item.size} />
@@ -162,13 +166,15 @@ const ListItem = styled.li`
   height: 100%;
   font-size: 1rem;
   color: black;
+  opacity: 1;
   cursor: pointer;
+  transition: opacity 0.4s ease;
 
   &:hover {
     color: ${theme("orange")};
   }
 
-  &::before {
+  /* &::before {
     position: absolute;
     top: 50%;
     margin: 0 auto;
@@ -178,14 +184,22 @@ const ListItem = styled.li`
     background: rgba(50, 50, 50, 0.5);
     width: 1px;
     height: 70%;
-  }
+  } */
 
   &:first-child {
     &::before {
       display: none;
     }
   }
+
+  ${({ isSearch }: { isSearch: boolean }) =>
+    isSearch &&
+    css`
+      opacity: 0;
+      width: 0%;
+    `}
 `;
 const SubTitle = styled.p`
   margin: 1rem 0 0;
+  font-size: 0.5rem;
 `;

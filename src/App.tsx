@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
+import Footer from "./components/Footer";
 import Header from "./components/header/Header";
 import { authService, dbService } from "./fbase";
 import { Home } from "./pages/Home";
@@ -50,6 +51,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
+      <Footer />
     </div>
   );
 }

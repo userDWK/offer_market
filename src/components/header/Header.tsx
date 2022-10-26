@@ -2,22 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LogoImg from "../../assets/images/header.jpg";
 // import Modal from "../../Ui/Modal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRight,
-  faCartShopping,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
-import { authService } from "../../fbase";
-import styled from "styled-components";
-import Navbar from "../Navbar";
+import styled, { css } from "styled-components";
+import Navbar from "./Navbar";
 import { useAppSelector } from "../../redux/features/userSlice";
-import { useDispatch } from "react-redux";
-import { setIsModal, setMessage } from "../../redux/features/modalSlice";
+import { media } from "../../styles/styleUtil";
 
 function Header() {
   const [searchText, setSearchText] = useState("");
   const [enteredFilter, setEnteredFilter] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
 
   const isLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
   const user = useAppSelector((state) => state.userData.user);
@@ -51,23 +44,21 @@ function Header() {
           setIsModal(false);
         }}
       ></Modal> */}
-        <Left>
-          <LogoBox>
-            <Link to="/">
-              <Logo src={LogoImg} alt="Logo" />
-            </Link>
-          </LogoBox>
-        </Left>
-        <Center>
-          <SearchForm onSubmit={handleSearch}>
-            <Select>{/* <Option /> */}</Select>
-            <Search type="text" className="search" onChange={handleText} />
-            <SearchSub type="submit" value="검색" className="searchSub" />
-          </SearchForm>
-        </Center>
-        <Right>
-          <Navbar />
-        </Right>
+        <LogoBox>
+          <Link to="/">
+            <Logo src={LogoImg} alt="Logo" />
+          </Link>
+        </LogoBox>
+
+        <SearchForm isSearch={isSearch} onSubmit={handleSearch}>
+          <Select>{/* <Option /> */}</Select>
+          <Search type="text" className="search" onChange={handleText} />
+          <SearchSub type="submit" value="검색" className="searchSub" />
+        </SearchForm>
+
+        <RightBox isSearch={isSearch}>
+          <Navbar isSearch={isSearch} setIsSearch={setIsSearch} />
+        </RightBox>
       </Row>
       <hr />
     </HeaderBox>
@@ -88,25 +79,32 @@ const Row = styled.div`
   text-align: center;
   padding: 0 2rem;
 `;
-const Left = styled.div`
-  width: 25%;
-`;
 const LogoBox = styled.div`
-  width: 100%;
+  width: 25%;
+
+  ${media.md`
+  width : 35%;  
+  `}
 `;
 const Logo = styled.img`
   width: 21rem;
 `;
-
-const Center = styled.div`
-  width: 40%;
-`;
 const SearchForm = styled.form`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  width: 100%;
+  width: 40%;
   height: 4rem;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  ${({ isSearch }: { isSearch: boolean }) =>
+    isSearch &&
+    css`
+      position: absolute;
+      right: 20%;
+      width: 45%;
+      opacity: 1;
+    `}
 `;
 const Select = styled.select`
   width: 25%;
@@ -135,6 +133,7 @@ const SearchSub = styled.input`
   border: 2px solid rgba(50, 50, 50, 0.4);
   border-left: none;
   background: orange;
+  font-size: 1rem;
   cursor: pointer;
 
   &:hover {
@@ -145,6 +144,22 @@ const SearchSub = styled.input`
   }
 `;
 
-const Right = styled.div`
+const RightBox = styled.div`
   width: 35%;
+
+  ${media.md`
+  width : 40%;
+  `}
+  ${media.sm`
+  width : 50%;
+  `}
+  ${media.xs`
+  width : 70%;
+  `}
+  
+  ${({ isSearch }: { isSearch: boolean }) =>
+    isSearch &&
+    css`
+      width: 9%;
+    `}
 `;
