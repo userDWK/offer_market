@@ -96,14 +96,15 @@ const SearchForm = styled.form`
   width: 40%;
   height: 4rem;
   opacity: 0;
-  transition: opacity 0.4s ease-in-out;
+  transition: all 0.6s ease-in;
   ${({ isSearch }: { isSearch: boolean }) =>
     isSearch &&
     css`
-      position: absolute;
-      right: 20%;
+      /* position: absolute;
+      right: 20%; */
       width: 45%;
       opacity: 1;
+      transition: all 0.6s ease-in;
     `}
 `;
 const Select = styled.select`
@@ -146,6 +147,7 @@ const SearchSub = styled.input`
 
 const RightBox = styled.div`
   width: 35%;
+  transition: all 0.6s ease-in;
 
   ${media.md`
   width : 40%;
@@ -161,5 +163,6 @@ const RightBox = styled.div`
     isSearch &&
     css`
       width: 9%;
+      transition: all 0.6s ease-in;
     `}
 `;

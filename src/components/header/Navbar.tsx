@@ -161,42 +161,24 @@ const SearchBtn = styled.button`
   color: black;
 `;
 const ListItem = styled.li`
-  position: relative;
   width: 20%;
   height: 100%;
   font-size: 1rem;
   color: black;
   opacity: 1;
   cursor: pointer;
-  transition: opacity 0.4s ease;
+  transition: width 0.6s ease-in, opacity 0.3s ease-out;
 
   &:hover {
     color: ${theme("orange")};
-  }
-
-  /* &::before {
-    position: absolute;
-    top: 50%;
-    margin: 0 auto;
-    transform: translate(0, -50%);
-    content: "";
-    display: block;
-    background: rgba(50, 50, 50, 0.5);
-    width: 1px;
-    height: 70%;
-  } */
-
-  &:first-child {
-    &::before {
-      display: none;
-    }
   }
 
   ${({ isSearch }: { isSearch: boolean }) =>
     isSearch &&
     css`
       opacity: 0;
-      width: 0%;
+      width: 0;
+      transition: width 0.6s ease-in, opacity 0.3s ease-out;
     `}
 `;
 const SubTitle = styled.p`
