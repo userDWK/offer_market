@@ -75,7 +75,7 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 12rem;
+  height: 15rem;
   text-align: center;
   padding: 0 2rem;
 `;
@@ -123,7 +123,8 @@ const Search = styled.input`
   border: 2px solid rgba(50, 50, 50, 0.4);
   border-left: none;
   border-right: none;
-  font-size: 1rem;
+  font-size: 1.35rem;
+  letter-spacing: 1px;
 `;
 const SearchSub = styled.input`
   padding: 0.5rem 0.75rem;
@@ -134,7 +135,8 @@ const SearchSub = styled.input`
   border: 2px solid rgba(50, 50, 50, 0.4);
   border-left: none;
   background: orange;
-  font-size: 1rem;
+  font-size: 1.35rem;
+  font-weight: 600;
   cursor: pointer;
 
   &:hover {
