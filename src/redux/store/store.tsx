@@ -5,9 +5,9 @@ import userSlice from "../features/userSlice";
 
 const store = configureStore({
   reducer: {
+    itemData: itemSlice.reducer,
     userData: userSlice.reducer,
     modalData: modalSlice.reducer,
-    itemData: itemSlice.reducer,
   },
 });
 

@@ -1,35 +1,68 @@
-import { getDocs } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, ReactElement } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { dbService } from "../../fbase";
+import { useAppSelector } from "../../redux/features/modalSlice";
 import { shadow } from "../../styles/styleUtil";
+import { sellItemsProps } from "../../redux/features/itemSlice";
+import { purchaseItemsProps } from "../../redux/features/itemSlice";
 
-const Card = (): JSX.Element => {
-  const location = useLocation().pathname;
-  const [Product, setProduct] = useState({});
+interface CardProps {
+  type: string;
+  size: number;
+}
+
+const Card = ({ type, size }: CardProps): JSX.Element => {
+  const [focusItems, setFocusItems] = useState<
+    sellItemsProps[] | purchaseItemsProps[] | null
+  >(null);
+
+  const sellItems: sellItemsProps[] = useAppSelector(
+    (state) => state.itemData.sellItems
+  );
+  const purchaseItems: purchaseItemsProps[] = useAppSelector(
+    (state) => state.itemData.purchaseItems
+  );
+
+  const path = useLocation().pathname;
+  const navigate = useNavigate();
+
+  const viewItemDesc = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    path.length === 1 ? navigate("/") : navigate("/");
+  };
+  const sliceItems = () => {
+    setFocusItems(
+      type === "판매" ? sellItems.slice(0, size) : purchaseItems?.slice(0, size)
+    );
+  };
   useEffect(() => {
-    // location.pathname.length === 1 ?
-  }, []);
+    sliceItems();
+  }, [sellItems, purchaseItems]);
   return (
-    <ProductBox page={location}>
-      <CardBox>
-        <ProductImg />
-        <TextBox>
-          <ProductTitle></ProductTitle>
-          <ProductDesc>
-            <Discount></Discount>
-            <ProductPrice></ProductPrice>
-          </ProductDesc>
-        </TextBox>
-      </CardBox>
-    </ProductBox>
+    <>
+      {focusItems?.map((item) => {
+        return (
+          <ItemBox key={item.date} path={path} onClick={viewItemDesc}>
+            <CardBox>
+              <ItemImg />
+              <TextBox>
+                <ItemTitle>{item.title}</ItemTitle>
+                <ItemDesc>
+                  <Discount></Discount>
+                  <ItemPrice>{+item.price.toLocaleString()}원</ItemPrice>
+                </ItemDesc>
+              </TextBox>
+            </CardBox>
+          </ItemBox>
+        );
+      })}
+    </>
   );
 };
 
 export default Card;
 
-const ProductBox = styled.div`
+const ItemBox = styled.div`
   margin: 5rem 0;
   padding-left: 4.5rem;
   display: grid;
@@ -37,8 +70,8 @@ const ProductBox = styled.div`
   grid-template-rows: 1fr 1fr;
   gap: 10% 0%;
 
-  ${({ page }: { page: string }) =>
-    page === "/" &&
+  ${({ path }: { path: string }) =>
+    path === "/" &&
     css`
       grid-template-rows: 1fr;
     `}
@@ -58,7 +91,7 @@ const CardBox = styled.div`
     ${shadow(2)}
   }
 `;
-const ProductImg = styled.img`
+const ItemImg = styled.img`
   position: relative;
   top: 1rem;
   left: 50%;
@@ -72,16 +105,16 @@ const TextBox = styled.div`
   left: 10%;
   color: black;
 `;
-const ProductTitle = styled.h5`
+const ItemTitle = styled.h5`
   width: 85%;
   font-size: 1.35rem;
   font-weight: 500;
   margin: 2rem 0 0.5rem;
 `;
-const ProductDesc = styled.p`
+const ItemDesc = styled.p`
   font-size: 1.25rem;
 `;
-const ProductPrice = styled.strong`
+const ItemPrice = styled.strong`
   font-size: 1.5rem;
   color: #ae0000;
   margin: 0.5rem 0 1.5rem;

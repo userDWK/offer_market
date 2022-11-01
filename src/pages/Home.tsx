@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import mainImg from "../assets/images/main.jpg";
-import { Link, useLocation } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import { query, orderBy, limit, getDocs } from "firebase/firestore";
 import styled from "styled-components";
-import { shadow, theme } from "../styles/styleUtil";
-import Card from "../components/card/Card";
+import CardBox from "../components/card/CardBox";
+import { useNavigate } from "react-router-dom";
 
 const text = [
   "이젠 판매자와 구매자가 가격으로 대화한다!",
   "거래를 희망하는 상품을 검색하고, 희망하는",
   "가격을 오퍼해보세요!",
 ];
+const keys = ["판매", "구매"];
 const Home = () => {
+  const navigate = useNavigate();
+
+  const moveItemPage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLElement;
+
+    navigate(target.innerText.startsWith("판매") ? "/sell/1" : "/purchase/1");
+  };
+
   return (
     <HomeBox>
       <Row>
@@ -26,18 +35,14 @@ const Home = () => {
             })}
           </TextBox>
         </AniBox>
-        <ProductTitle>최근 등록 상품들을 만나보세요!</ProductTitle>
-        <ProductHeaderBox>
-          <SubTitle>판매 상품</SubTitle>
-          <ViewBtn>판매 상품 보기</ViewBtn>
-        </ProductHeaderBox>
-
-        <TradeBox>
-          <Sell>
-            <Card sellItems={sellItems} purchaseItems={purchaseItems} />
-          </Sell>
-          <Purchase></Purchase>
-        </TradeBox>
+        <ItemTitle>최근 등록 상품들을 만나보세요!</ItemTitle>
+        {keys.map((type) => {
+          return (
+            <React.Fragment key={type}>
+              <CardBox type={type} size={4} onclick={moveItemPage} />
+            </React.Fragment>
+          );
+        })}
       </Row>
     </HomeBox>
   );
@@ -90,39 +95,7 @@ const Text = styled.p`
   color: rgb(250, 250, 250);
 `;
 
-const ProductTitle = styled.h2`
+const ItemTitle = styled.h2`
   margin: 15rem 0 5rem 5rem;
   font-size: 3rem;
 `;
-
-const ProductHeaderBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 3rem 5rem;
-`;
-const SubTitle = styled.h3`
-  font-size: 2rem;
-`;
-const ViewBtn = styled.button`
-  padding: 1.25rem 2rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 1rem;
-  background: ${theme("orange")};
-  cursor: pointer;
-
-  &:hover {
-    background: ${theme("darkorange")};
-    ${shadow(1)};
-  }
-
-  &:active {
-    color: white;
-    ${shadow(2)};
-  }
-`;
-
-const TradeBox = styled.section``;
-const Sell = styled.article``;
-const Purchase = styled(Sell)``;

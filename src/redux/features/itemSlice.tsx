@@ -2,42 +2,49 @@ import { createSlice } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 
-interface ItemProps {
-  [key: string]: string;
+export interface sellItemsProps {
+  bundle: { amount: ""; capacity: ""; price: "" };
+  courier: "";
+  etc: "";
+  img: "";
+  num: "";
+  parcelPrice: "";
+  title: "";
+  date: "";
+  price: "";
+  originPrice: "";
+  seller: "";
+  uid: "";
 }
+
+export interface purchaseItemsProps {
+  amount: "";
+  capacity: "";
+  category: "";
+  etc: "";
+  img: "";
+  num: "";
+  paymentMethod: "";
+  title: "";
+  price: "";
+  residence: "";
+  date: "";
+  uid: "";
+}
+
+interface initialStateProps {
+  sellItems: sellItemsProps[];
+  purchaseItems: purchaseItemsProps[];
+}
+
+const initialState: initialStateProps = {
+  sellItems: [],
+  purchaseItems: [],
+};
 
 const itemSlice = createSlice({
   name: "itemSlice",
-  initialState: {
-    sellItems: {
-      bundle: { amount: "", capacity: "", price: "" },
-      courier: "",
-      etc: "",
-      img: "",
-      num: "",
-      parcelPrice: "",
-      productName: "",
-      resistDate: "",
-      salePrice: "",
-      sellPrice: "",
-      seller: "",
-      uid: "",
-    },
-    purchaseItems: {
-      amount: "",
-      capacity: "",
-      category: "",
-      etc: "",
-      img: "",
-      num: "",
-      paymentMethod: "",
-      productName: "",
-      purchasePrice: "",
-      residence: "",
-      resistData: "",
-      uid: "",
-    },
-  },
+  initialState,
   reducers: {
     setSellItems: (state, action) => {
       state.sellItems = action.payload;

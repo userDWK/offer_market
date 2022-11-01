@@ -100,6 +100,16 @@ export default Footer;
 const FooterBox = styled.footer`
   position: relative;
   bottom: 0;
+  padding: 6rem 0;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: ${theme("gray")};
+    margin-bottom: 6rem;
+  }
 `;
 const Row = styled.div`
   position: relative;

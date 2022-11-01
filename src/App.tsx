@@ -6,6 +6,9 @@ import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import { authService, dbService } from "./fbase";
 import Home from "./pages/Home";
+import Purchase from "./pages/Purchase";
+import Sell from "./pages/Sell";
+import { setPurchaseItems, setSellItems } from "./redux/features/itemSlice";
 
 import {
   setIsLoggedIn,
@@ -15,8 +18,6 @@ import {
 import "./styles/styles.css";
 
 function App(): JSX.Element {
-  const [sellItems, setSellItems] = useState({});
-  const [purchaseItems, setPurchaseItems] = useState({});
   const user = useAppSelector((state) => state.userData.user);
   const isLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
   const dispatch = useDispatch();
@@ -25,14 +26,14 @@ function App(): JSX.Element {
     const sellRef = dbService.collection("sell");
     const q = sellRef.orderBy("resistDate", "desc");
     const data = await getDocs(q);
-    setSellItems(data.docs.map((doc) => doc.data()));
+    dispatch(setSellItems(data.docs.map((doc) => doc.data())));
   }, []);
 
   const getPurchaseItemsFromDb = useCallback(async () => {
     const purchaseRef = dbService.collection("purchase");
     const q = purchaseRef.orderBy("resistDate", "desc");
     const data = await getDocs(q);
-    setPurchaseItems(data.docs.map((doc) => doc.data()));
+    dispatch(setPurchaseItems(data.docs.map((doc) => doc.data())));
   }, []);
 
   //로그인 상태 추적 후, 로그인 상태 시, 유저 정보 dispatch.
@@ -92,10 +93,9 @@ function App(): JSX.Element {
     <div className="App">
       <Header />
       <Routes>
-        <Route
-          path="/"
-          element={<Home sellItems={sellItems} purchaseItems={purchaseItems} />}
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/sell/*" element={<Sell />} />
+        <Route path="/purchase/*" element={<Purchase />} />
       </Routes>
       <Footer />
     </div>

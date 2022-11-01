@@ -53,7 +53,6 @@ interface NavbarProps {
 export const Navbar = ({ isSearch, setIsSearch }: NavbarProps): JSX.Element => {
   const isModal = useAppSelector((state) => state.modalData.isModal);
   const message = useAppSelector((state) => state.modalData.message);
-  // const user = useAppSelector((state) => state.userData.user);
   const isLoggedIn = useAppSelector((state) => state.userData.isLoggedIn);
 
   const dispatch = useDispatch();
