@@ -5,9 +5,9 @@ import { Route, Routes } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import { authService, dbService } from "./fbase";
-import Home from "./pages/Home";
-import Purchase from "./pages/Purchase";
-import Sell from "./pages/Sell";
+import Home from "./pages/home/Home";
+import Purchase from "./pages/purchase/Purchase";
+import Sell from "./pages/sell/Sell";
 import { setPurchaseItems, setSellItems } from "./redux/features/itemSlice";
 
 import {

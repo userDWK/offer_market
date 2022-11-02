@@ -1,9 +1,9 @@
 import React from "react";
-import mainImg from "../assets/images/main.jpg";
+import mainImg from "../../assets/images/main.jpg";
 import firebase from "firebase/compat/app";
 import { query, orderBy, limit, getDocs } from "firebase/firestore";
 import styled from "styled-components";
-import CardBox from "../components/card/CardBox";
+import CardBox from "../../components/card/CardBox";
 import { useNavigate } from "react-router-dom";
 
 const text = [
@@ -19,7 +19,11 @@ const Home = () => {
     e.preventDefault();
     const target = e.target as HTMLElement;
 
-    navigate(target.innerText.startsWith("판매") ? "/sell/1" : "/purchase/1");
+    navigate(
+      target.innerText.startsWith("판매")
+        ? "/sell/pageNum=1"
+        : "/purchase/pageNum=1"
+    );
   };
 
   return (

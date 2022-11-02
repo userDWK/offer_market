@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 import Navbar from "./Navbar";
 import { useAppSelector } from "../../redux/features/userSlice";
 import { media } from "../../styles/styleUtil";
+import Category from "../select/Category";
 
 function Header() {
   const [searchText, setSearchText] = useState("");
@@ -51,7 +52,7 @@ function Header() {
         </LogoBox>
 
         <SearchForm isSearch={isSearch} onSubmit={handleSearch}>
-          <Select>{/* <Option /> */}</Select>
+          <Category className="header" onChange={() => console.log(1)} />
           <Search type="text" className="search" onChange={handleText} />
           <SearchSub type="submit" value="검색" className="searchSub" />
         </SearchForm>
@@ -107,14 +108,6 @@ const SearchForm = styled.form`
       transition: all 0.6s ease-in;
     `}
 `;
-const Select = styled.select`
-  width: 25%;
-  height: 100%;
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  border: 2px solid rgba(50, 50, 50, 0.4);
-`;
-const Option = styled.option``;
 
 const Search = styled.input`
   padding: 0.5rem 0.75rem 0.5rem 1.5rem;

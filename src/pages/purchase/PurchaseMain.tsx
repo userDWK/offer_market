@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import CardBox from "../components/card/CardBox";
+import CardBox from "../../components/card/CardBox";
 
-const Purchase = () => {
+const PurchaseMain = () => {
   const navigate = useNavigate();
   const moveRegistPage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ const Purchase = () => {
   );
 };
 
-export default Purchase;
+export default PurchaseMain;
 
 const PurchaseBox = styled.section`
   min-height: 100rem;
