@@ -61,13 +61,14 @@ function App(): JSX.Element {
 
   const Time = () => {
     const now = new Date();
-    let year = now.getFullYear().toString();
-    let month = (now.getMonth() + 1).toString();
-    let date = now.getDate().toString();
-    let hours = now.getHours().toString();
-    let minutes = now.getMinutes().toString();
-    let seconds = now.getSeconds().toString();
-    let milliseconds = now.getMilliseconds().toString();
+
+    const year = now.getFullYear().toString();
+    const month = (now.getMonth() + 1).toString();
+    const date = now.getDate().toString();
+    const hours = now.getHours().toString();
+    const minutes = now.getMinutes().toString();
+    const seconds = now.getSeconds().toString();
+    const milliseconds = now.getMilliseconds().toString();
     return (
       year +
       (month.length === 1 ? "0" + month : month) +
@@ -90,7 +91,7 @@ function App(): JSX.Element {
   }, [TrackLoggedIn, getSellItemsFromDb, getPurchaseItemsFromDb]);
 
   return (
-    <div className="App">
+    <>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -98,7 +99,7 @@ function App(): JSX.Element {
         <Route path="/purchase/*" element={<Purchase />} />
       </Routes>
       <Footer />
-    </div>
+    </>
   );
 }
 
