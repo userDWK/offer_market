@@ -14,11 +14,9 @@ const CardBox = ({ type, size, onclick }: CardBoxProps): JSX.Element => {
     <>
       <ItemHeaderBox>
         <SubTitle>{type} 상품</SubTitle>
-        {size === 4 ? (
-          <ViewBtn onClick={onclick}>{type} 상품 보기</ViewBtn>
-        ) : (
-          <ViewBtn onClick={onclick}>{type} 등록 하기</ViewBtn>
-        )}
+        <ViewBtn onClick={onclick}>
+          {type} {size === 4 ? "상품 보기" : "등록 하기"}
+        </ViewBtn>
       </ItemHeaderBox>
       <TradeBox>
         {type === "판매" ? (

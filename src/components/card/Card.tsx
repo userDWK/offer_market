@@ -3,8 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useAppSelector } from "../../redux/features/modalSlice";
 import { shadow } from "../../styles/styleUtil";
-import { sellItemsProps } from "../../redux/features/itemSlice";
-import { purchaseItemsProps } from "../../redux/features/itemSlice";
+import { purchaseItemsProps, sellItemsProps } from "../../type/interfaces";
 
 interface CardProps {
   type: string;

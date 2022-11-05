@@ -91,7 +91,7 @@ function App(): JSX.Element {
   }, [TrackLoggedIn, getSellItemsFromDb, getPurchaseItemsFromDb]);
 
   return (
-    <>
+    <div className="App">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -99,7 +99,7 @@ function App(): JSX.Element {
         <Route path="/purchase/*" element={<Purchase />} />
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
 

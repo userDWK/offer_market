@@ -3,33 +3,7 @@ import { shadow, theme } from "../../styles/styleUtil";
 
 import { InputsProps, TextFormProps } from "../../type/interfaces";
 
-const TextForm = ({
-  input,
-  setPurchaseImg,
-  purchaseItem,
-  setPurchaseItem,
-}: TextFormProps) => {
-  const handleInputData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPurchaseItem({
-      ...purchaseItem,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target.files as FileList;
-    const file = target[0];
-
-    if (!file.type.startsWith("image/")) return;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      const target = e.target as any;
-      setPurchaseImg(target.result);
-    };
-  };
-
+const TextForm = ({ inputKey, handleImg, handleInputData }: TextFormProps) => {
   const inputs: InputsProps = {
     inputs: [
       {
@@ -107,23 +81,24 @@ const TextForm = ({
 
   return (
     <>
-      {inputs[input].map((item) => {
-        return (
-          <InputBox key={item.id}>
-            <Label htmlFor={item.id}>{item.text}</Label>
-            <Input
-              onChange={item.onChange}
-              type={item.type}
-              id={item.id}
-              name={item.name}
-              placeholder={item.placeholder}
-              maxLength={item.maxLength}
-              minLength={item.minLength}
-              accept={item.accept}
-            />
-          </InputBox>
-        );
-      })}
+      {inputKey &&
+        inputs[inputKey].map((item) => {
+          return (
+            <InputBox key={item.id}>
+              <Label htmlFor={item.id}>{item.text}</Label>
+              <Input
+                onChange={item.onChange}
+                type={item.type}
+                id={item.id}
+                name={item.name}
+                placeholder={item.placeholder}
+                maxLength={item.maxLength}
+                minLength={item.minLength}
+                accept={item.accept}
+              />
+            </InputBox>
+          );
+        })}
     </>
   );
 };
@@ -138,7 +113,7 @@ const Input = styled.input`
   width: 100%;
   height: 4rem;
   padding-left: 1rem;
-  background: none;
+  background: white;
   border: 1px solid ${theme("gray")};
   border-radius: 4px;
 
@@ -149,7 +124,7 @@ const Input = styled.input`
       border: none;
     `}
 `;
-const Label = styled.label`
+export const Label = styled.label`
   display: block;
   height: 1.75rem;
   margin-bottom: 1rem;
